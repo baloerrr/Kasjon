@@ -1,7 +1,9 @@
 "use client";
 
-import getGoogleSheetData from "@/app/libs/api-libs";
+import { getGoogleSheetData } from "@/app/libs/api-libs";
 import { useEffect, useState } from "react";
+import Pay from "./Pay";
+import { payWeek } from "@/constant";
 
 interface SheetData {
   nama: string;
@@ -27,7 +29,8 @@ export default function Sheet() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>("");
   const [searchName, setSearchName] = useState("");
-  const [foundName, setFoundName] = useState<SheetData | null>(null); // Explicitly specify the type
+  const [foundName, setFoundName] = useState<SheetData | null>(null);
+  const [selectedWeek, setSelectedWeek] = useState<string | number>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,8 +57,8 @@ export default function Sheet() {
     setFoundName(foundItem);
   };
 
-  const handlePayment = () => {
-    console.log(`Payment for ${foundName?.nama}`);
+  const handleWeekChange = (e: any) => {
+    setSelectedWeek(e.target.value);
   };
 
   return (
@@ -78,14 +81,34 @@ export default function Sheet() {
         </div>
       )}
       {searchName && foundName && (
-        <div className="w-96">
-          <button
-            className="w-full rounded bg-violet-700 px-4 py-2 text-white"
-            onClick={handlePayment}
-          >
-            Pay
-          </button>
-        </div>
+        <>
+          <div className="rounded w-96 bg-white">
+            <select
+              name="weeks"
+              value={selectedWeek}
+              onChange={handleWeekChange}
+              className="bg-transparent border-none text-gray-900 outline-none focus:outline-none w-full p-4 "
+            >
+              <option disabled value="">
+                Pilih minggu
+              </option>
+              {payWeek.map((week, index) => (
+                <option
+                  key={index}
+                  value={week.value}
+                  disabled={
+                    foundName?.[
+                      `minggu${week.value + 1}` as keyof SheetData
+                    ] === true
+                  }
+                >
+                  {week.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <Pay />
+        </>
       )}
     </>
   );
