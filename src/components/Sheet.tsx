@@ -1,7 +1,7 @@
 "use client";
 
 import { getGoogleSheetData } from "@/app/libs/api-libs";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import Pay from "./Pay";
 import { payWeek } from "@/constant";
 
@@ -54,62 +54,72 @@ export default function Sheet() {
     );
     console.log(foundItem);
 
-    setFoundName(foundItem);
+    setFoundName(foundItem || null);
   };
 
-  const handleWeekChange = (e: any) => {
+  const handleWeekChange = (e  :ChangeEvent<HTMLSelectElement>) => {
     setSelectedWeek(e.target.value);
+  };
+
+  const handleNameChange = (e :ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchName(value); 
+    if (!value) {
+      setFoundName(null);
+    }
   };
 
   return (
     <>
-      {data && (
-        <div className="flex rounded w-96 bg-white">
+      <div className="card-container border-2 border-solid border-violet-700 bg-white rounded-lg p-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)]">
+        <div className="flex rounded w-96 bg-slate-100 mb-4">
           <input
             type="text"
             placeholder="Cek namo dulu jon"
             value={searchName}
-            onChange={(e) => setSearchName(e.target.value)}
+            onChange={handleNameChange}
             className="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none focus:outline-none"
           />
           <button
-            className="m-2 rounded bg-violet-700 px-4 py-2 text-white"
+            className="m-2 rounded bg-violet-700 px-4 py-2  text-white "
             onClick={handleSearch}
           >
-            Check
+            Cek
           </button>
         </div>
-      )}
-      {searchName && foundName && (
-        <>
-          <div className="rounded w-96 bg-white">
-            <select
-              name="weeks"
-              value={selectedWeek}
-              onChange={handleWeekChange}
-              className="bg-transparent border-none text-gray-900 outline-none focus:outline-none w-full p-4 "
-            >
-              <option disabled value="">
-                Pilih minggu
-              </option>
-              {payWeek.map((week, index) => (
-                <option
-                  key={index}
-                  value={week.value}
-                  disabled={
-                    foundName?.[
-                      `minggu${week.value + 1}` as keyof SheetData
-                    ] === true
-                  }
+        {
+          searchName &&
+          foundName && ( // Tampilkan jika tombol "Cek" sudah diklik dan searchName serta foundName tidak kosong
+            <>
+              <div className="rounded w-96 bg-slate-100">
+                <select
+                  name="weeks"
+                  value={selectedWeek}
+                  onChange={handleWeekChange}
+                  className="bg-transparent border-none text-gray-900 outline-none focus:outline-none w-full p-4"
                 >
-                  {week.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <Pay />
-        </>
-      )}
+                  <option disabled value="">
+                    Pilih Minggu
+                  </option>
+                  {payWeek.map((week, index) => (
+                    <option
+                      key={index}
+                      value={week.value}
+                      disabled={
+                        foundName?.[
+                          `minggu${week.value + 1}` as keyof SheetData
+                        ] === true
+                      }
+                    >
+                      {week.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <Pay />
+            </>
+          )}
+      </div>
     </>
   );
 }

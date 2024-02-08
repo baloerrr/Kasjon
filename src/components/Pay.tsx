@@ -21,7 +21,7 @@ export default function Pay() {
         }
     }
     return (
-        <div className="w-96">
+        <div className="w-96 mt-4">
         <button
           className="w-full rounded bg-violet-700 px-4 py-2 text-white"
           onClick={pay}
