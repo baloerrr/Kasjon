@@ -1,5 +1,6 @@
 "use client";
 
+import Navbar from "@/components/Navbar";
 import Sheet from "@/components/Sheet";
 import { useEffect } from "react";
 
@@ -22,6 +23,7 @@ export default function Home() {
   }, []);
   return (
     <main className="flex bg-white min-h-screen flex-col items-center justify-center gap-5">
+        <Navbar/>
         <Sheet />
     </main>
   );
