@@ -72,6 +72,9 @@ export default function Sheet() {
   return (
     <>
       <div className="card-container border-2 border-solid border-violet-700 bg-white rounded-lg p-4 shadow-[5px_5px_0px_0px_rgba(109,40,217)]">
+        <div className="text-center mb-3 mt-1">
+          <h1 className="text-xl font-bold">Pembayaran KAS 4 CC</h1>
+        </div>
         <div className="flex rounded w-96 bg-slate-100 mb-4">
           <input
             type="text"
@@ -120,6 +123,9 @@ export default function Sheet() {
             </>
           )}
       </div>
+      <span className="text-sm">
+      Copyright © 2024 Built by <strong>Baloerdev</strong>
+      </span>
     </>
   );
 }
