@@ -1,4 +1,9 @@
+import Image from "next/image";
 import Link from "next/link";
+import { FaGithub } from "react-icons/fa";
+import { SiGooglesheets } from "react-icons/si";
+
+
 
 export default function Navbar() {
   return (
@@ -9,16 +14,19 @@ export default function Navbar() {
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
           <label className="text-xl">🔮</label>
-          <span className="self-center text-2xl font-extrabold whitespace-nowrap dark:text-white">
+          <span className="self-center text-2xl font-extrabold whitespace-nowrap dark:text-white shadow-sm">
             KasJon
           </span>
         </a>
-        <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <div className="flex md:order-2 gap-3 space-x-3 md:space-x-0 rtl:space-x-reverse">
           <Link
             href={"https://docs.google.com/spreadsheets/d/1ZoaDEWK2PkqVE3Xu1iHnTrAZ-eMyI2x2dDPyPdxxsxk/edit#gid=2045135101"}
-            className="text-white bg-violet-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="bg-transparent border-2 border-solid border-slate-200 font-medium rounded-full text-2xl p-2 text-center text-[#22a565] transition-all hover:text-violet-700 hover:border-violet-700 shadow-md"
           >
-            Lihat Kas
+            <SiGooglesheets/>
+          </Link>
+          <Link href={"https://github.com/baloerrr"}   className="bg-transparent border-2 border-solid border-slate-200 font-medium rounded-full text-2xl p-2 text-center transition-all hover:text-violet-700  hover:border-violet-700 shadow-md">
+            <FaGithub/>
           </Link>
         </div>
       </div>
