@@ -18,8 +18,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={nunito.className}>
-        {children} 
-        <Toaster />
+        <Toaster position="top-center" />
+        {children}
       </body>
     </html>
   );

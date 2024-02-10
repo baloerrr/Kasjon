@@ -4,6 +4,8 @@ import { getGoogleSheetData } from "@/app/libs/api-libs";
 import { ChangeEvent, useEffect, useState } from "react";
 import Pay from "./Pay";
 import { payWeek } from "@/constant";
+import Toast from "./Toast";
+import { toast } from "sonner";
 
 interface SheetData {
   nama: string;
@@ -26,7 +28,6 @@ interface SheetData {
 
 export default function Sheet() {
   const [data, setData] = useState<SheetData[]>([]);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>("");
   const [searchName, setSearchName] = useState("");
   const [foundName, setFoundName] = useState<SheetData | null>(null);
@@ -52,7 +53,10 @@ export default function Sheet() {
     const foundItem: any = data.find(
       (item) => item.nama.toUpperCase() === upperCaseSearch
     );
-    console.log(foundItem);
+
+    if(searchName === "") return toast.error("Masukkan nama dulu jonn")
+
+    if(!foundItem) return toast.error("Nama tidak ditemukan")
 
     setFoundName(foundItem || null);
   };
