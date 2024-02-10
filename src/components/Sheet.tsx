@@ -114,7 +114,9 @@ export default function Sheet() {
                         ] === true
                       }
                     >
-                      {week.name}
+                      {week.name} {foundName?.[
+                          `minggu${week.value + 1}` as keyof SheetData
+                        ] === true ? '✔' : ''}
                     </option>
                   ))}
                 </select>
