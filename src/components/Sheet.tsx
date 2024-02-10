@@ -4,33 +4,14 @@ import { getGoogleSheetData } from "@/app/libs/api-libs";
 import { ChangeEvent, useEffect, useState } from "react";
 import Pay from "./Pay";
 import { payWeek } from "@/constant";
-import Toast from "./Toast";
 import { toast } from "sonner";
-
-interface SheetData {
-  nama: string;
-  harga: number;
-  jumlahBayar: number;
-  total: number;
-  minggu1: boolean;
-  minggu2: boolean;
-  minggu3: boolean;
-  minggu4: boolean;
-  minggu5: boolean;
-  minggu6: boolean;
-  minggu7: boolean;
-  minggu8: boolean;
-  minggu9: boolean;
-  minggu10: boolean;
-  minggu11: boolean;
-  minggu12: boolean;
-}
+import SheetDataProps from "@/types/sheetData";
 
 export default function Sheet() {
-  const [data, setData] = useState<SheetData[]>([]);
+  const [data, setData] = useState<SheetDataProps[]>([]);
   const [error, setError] = useState<string>("");
   const [searchName, setSearchName] = useState("");
-  const [foundName, setFoundName] = useState<SheetData | null>(null);
+  const [foundName, setFoundName] = useState<SheetDataProps | null>(null);
   const [selectedWeek, setSelectedWeek] = useState<string | number>("");
 
   useEffect(() => {
@@ -114,12 +95,12 @@ export default function Sheet() {
                       value={week.value}
                       disabled={
                         foundName?.[
-                          `minggu${week.value + 1}` as keyof SheetData
+                          `minggu${week.value + 1}` as keyof SheetDataProps
                         ] === true
                       }
                     >
                       {week.name} {foundName?.[
-                          `minggu${week.value + 1}` as keyof SheetData
+                          `minggu${week.value + 1}` as keyof SheetDataProps
                         ] === true ? '✔' : ''}
                     </option>
                   ))}
