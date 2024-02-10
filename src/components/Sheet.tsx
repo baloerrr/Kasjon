@@ -6,6 +6,7 @@ import Pay from "./Pay";
 import { payWeek } from "@/constant";
 import { toast } from "sonner";
 import SheetDataProps from "@/types/sheetData";
+import Modal from "./Modal";
 
 export default function Sheet() {
   const [data, setData] = useState<SheetDataProps[]>([]);
@@ -13,6 +14,7 @@ export default function Sheet() {
   const [searchName, setSearchName] = useState("");
   const [foundName, setFoundName] = useState<SheetDataProps | null>(null);
   const [selectedWeek, setSelectedWeek] = useState<string | number>("");
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,20 +37,20 @@ export default function Sheet() {
       (item) => item.nama.toUpperCase() === upperCaseSearch
     );
 
-    if(searchName === "") return toast.error("Masukkan nama dulu jonn")
+    if (searchName === "") return toast.error("Masukkan nama dulu jonn");
 
-    if(!foundItem) return toast.error("Nama tidak ditemukan")
+    if (!foundItem) return toast.error("Nama tidak ditemukan");
 
     setFoundName(foundItem || null);
   };
 
-  const handleWeekChange = (e  :ChangeEvent<HTMLSelectElement>) => {
+  const handleWeekChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setSelectedWeek(e.target.value);
   };
 
-  const handleNameChange = (e :ChangeEvent<HTMLInputElement>) => {
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setSearchName(value); 
+    setSearchName(value);
     if (!value) {
       setFoundName(null);
     }
@@ -69,50 +71,52 @@ export default function Sheet() {
             className="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none focus:outline-none"
           />
           <button
-            className="m-2 rounded bg-violet-700 px-4 py-2  text-white "
+            className="m-2 rounded bg-violet-700 px-4 py-2  text-white transition-transform hover:scale-105"
             onClick={handleSearch}
           >
             Cek
           </button>
         </div>
-        {
-          searchName &&
-          foundName && ( // Tampilkan jika tombol "Cek" sudah diklik dan searchName serta foundName tidak kosong
-            <>
-              <div className="rounded w-96 bg-slate-100">
-                <select
-                  name="weeks"
-                  value={selectedWeek}
-                  onChange={handleWeekChange}
-                  className="bg-transparent border-none text-gray-900 outline-none focus:outline-none w-full p-4"
-                >
-                  <option disabled value="">
-                    Pilih Minggu
+        {searchName && foundName && (
+          <>
+            <div className="rounded w-96 bg-slate-100">
+              <select
+                name="weeks"
+                value={selectedWeek}
+                onChange={handleWeekChange}
+                className="bg-transparent border-none text-gray-900 outline-none focus:outline-none w-full p-4"
+              >
+                <option disabled value="">
+                  Pilih Minggu
+                </option>
+                {payWeek.map((week, index) => (
+                  <option
+                    key={index}
+                    value={week.value}
+                    disabled={
+                      foundName?.[
+                        `minggu${week.value + 1}` as keyof SheetDataProps
+                      ] === true
+                    }
+                  >
+                    {week.name}{" "}
+                    {foundName?.[
+                      `minggu${week.value + 1}` as keyof SheetDataProps
+                    ] === true
+                      ? "✔"
+                      : ""}
                   </option>
-                  {payWeek.map((week, index) => (
-                    <option
-                      key={index}
-                      value={week.value}
-                      disabled={
-                        foundName?.[
-                          `minggu${week.value + 1}` as keyof SheetDataProps
-                        ] === true
-                      }
-                    >
-                      {week.name} {foundName?.[
-                          `minggu${week.value + 1}` as keyof SheetDataProps
-                        ] === true ? '✔' : ''}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <Pay />
-            </>
-          )}
+                ))}
+              </select>
+            </div>
+            <Pay setShowModal={setShowModal} />
+          </>
+        )}
       </div>
       <span className="text-sm">
-      Copyright © 2024 Built by <strong>Baloerdev</strong>
+        Copyright © 2024 Built by <strong>Baloerdev</strong>
       </span>
+      {showModal ? <Modal /> : ""}
     </>
   );
 }
