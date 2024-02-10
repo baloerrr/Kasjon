@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Nunito_Sans } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "sonner";
 
-const nunito = Nunito_Sans({ subsets: ["latin"]});
+const nunito = Nunito_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "KasJon",
@@ -16,7 +17,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={nunito.className}>{children}</body>
+      <body className={nunito.className}>
+        {children} 
+        <Toaster />
+      </body>
     </html>
   );
 }
