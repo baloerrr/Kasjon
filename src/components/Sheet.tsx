@@ -5,8 +5,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import Pay from "./Pay";
 import { payWeek } from "@/constant";
 import { toast } from "sonner";
-import SheetDataProps from "@/types/sheetData";
-import Modal from "./Modal";
+import { SheetDataProps } from "@/types/types";
 
 export default function Sheet() {
   const [data, setData] = useState<SheetDataProps[]>([]);
@@ -14,7 +13,7 @@ export default function Sheet() {
   const [searchName, setSearchName] = useState("");
   const [foundName, setFoundName] = useState<SheetDataProps | null>(null);
   const [selectedWeek, setSelectedWeek] = useState<string | number>("");
-  const [showModal, setShowModal] = useState(false);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -109,14 +108,13 @@ export default function Sheet() {
                 ))}
               </select>
             </div>
-            <Pay setShowModal={setShowModal} />
+            <Pay  />
           </>
         )}
       </div>
       <span className="text-sm">
         Copyright © 2024 Built by <strong>Baloerdev</strong>
       </span>
-      {showModal ? <Modal /> : ""}
     </>
   );
 }
